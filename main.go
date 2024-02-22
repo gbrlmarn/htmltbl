@@ -2,19 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"os"
-
-	"github.com/PuerkitoBio/goquery"
-	"github.com/olekukonko/tablewriter"
 )
-
-type Table struct {
-	th   []string
-	td   []string
-	cols int
-}
 
 func main() {
 	if len(os.Args) == 1 {
@@ -33,44 +23,11 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	tbls, err := Extract(resp.Body)
+	tbls, err := extract(resp.Body)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}
-	Render(tbls)
+	render(tbls)
 }
 
-func Extract(body io.ReadCloser) ([]Table, error) {
-	doc, err := goquery.NewDocumentFromReader(body)
-	if err != nil {
-		return nil, err
-	}
-	var tables []Table
-	doc.Find("table").Each(func(i int, s *goquery.Selection) {
-		var t Table
-		// find table header
-		s.Find("th").Each(func(i int, s *goquery.Selection) {
-			t.th = append(t.th, s.Text())
-			t.cols += 1
-		})
-		// find table data
-		s.Find("td").Each(func(i int, s *goquery.Selection) {
-			t.td = append(t.td, s.Text())
-		})
-		tables = append(tables, t)
-	})
-	return tables, nil
-}
-
-func Render(tbls []Table) {
-	for _, t := range tbls {
-		table := tablewriter.NewWriter(os.Stdout)
-		// Set headers
-		table.SetHeader(t.th)
-		for i := 0; i < len(t.td); i += t.cols {
-			table.Append(t.td[i : i+t.cols])
-		}
-		table.Render()
-	}
-}
