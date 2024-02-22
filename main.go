@@ -1,12 +1,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
 )
 
+var (
+    format = flag.String("format", "table", "format: table")
+)
+
 func main() {
+    flag.Parse()
 	if len(os.Args) == 1 {
 		fmt.Println("Please specify the link for table extraction")
 		return
@@ -28,6 +34,12 @@ func main() {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}
-	render(tbls)
+
+    switch *format {
+    case "table":
+        render(tbls)
+    default:
+        panic(fmt.Sprintf("unsupported format %s", *format)) 
+    }
 }
 
