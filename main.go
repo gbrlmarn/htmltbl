@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}
-    Render(tbls)
+	Render(tbls)
 }
 
 func Extract(body io.ReadCloser) ([]Table, error) {
@@ -52,11 +52,11 @@ func Extract(body io.ReadCloser) ([]Table, error) {
 		// find table header
 		s.Find("th").Each(func(i int, s *goquery.Selection) {
 			t.th = append(t.th, s.Text())
-            t.cols += 1
+			t.cols += 1
 		})
 		// find table data
 		s.Find("td").Each(func(i int, s *goquery.Selection) {
-            t.td = append(t.td, s.Text())
+			t.td = append(t.td, s.Text())
 		})
 		tables = append(tables, t)
 	})
@@ -64,11 +64,13 @@ func Extract(body io.ReadCloser) ([]Table, error) {
 }
 
 func Render(tbls []Table) {
-	table := tablewriter.NewWriter(os.Stdout)
-	// Set headers
 	for _, t := range tbls {
+		table := tablewriter.NewWriter(os.Stdout)
+		// Set headers
 		table.SetHeader(t.th)
-        table.Append(t.td)
-        table.Render()
+		for i := 0; i < len(t.td); i += t.cols {
+			table.Append(t.td[i : i+t.cols])
+		}
+		table.Render()
 	}
 }
