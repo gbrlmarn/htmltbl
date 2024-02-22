@@ -8,21 +8,22 @@ import (
 )
 
 var (
-    format = flag.String("format", "table", "format: table")
+    format = flag.String("format", "table", "format: table, json")
 )
 
 func main() {
     flag.Parse()
-	if len(os.Args) == 1 {
+	if len(flag.Args()) == 0 {
 		fmt.Println("Please specify the link for table extraction")
 		return
 	}
-	if len(os.Args) > 2 {
+	if len(flag.Args()) > 2 {
 		fmt.Println("Only one link is supported")
 		return
 	}
+    url := flag.Args()[0]
 
-	resp, err := http.Get(os.Args[1])
+	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
@@ -37,9 +38,11 @@ func main() {
 
     switch *format {
     case "table":
-        render(tbls)
+        tableFormat(tbls)
+    case "json":
+        jsonFormat(tbls)
     default:
-        panic(fmt.Sprintf("unsupported format %s", *format)) 
+        panic(fmt.Sprintf("unsupported format %s\n", *format)) 
     }
 }
 

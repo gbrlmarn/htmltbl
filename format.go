@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/olekukonko/tablewriter"
 )
 
-func render(tbls []Table) {
+// Format tables in tabular format
+func tableFormat(tbls []Table) {
 	for _, t := range tbls {
 		table := tablewriter.NewWriter(os.Stdout)
 		// Set headers
@@ -16,4 +18,8 @@ func render(tbls []Table) {
 		}
 		table.Render()
 	}
+}
+
+func jsonFormat(tbls []Table) {
+    fmt.Println("Needs to be implemented")
 }
