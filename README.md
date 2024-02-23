@@ -14,5 +14,11 @@ Or building from repository:
     cd htmltbl
     go build
 
+## Usage
+You must specify a http link and optionally the format(table, json)
+
+    htmltbl --format table <url>
+    htmltbl --format json <url>
+
 ## License
 [MIT](https://github.com/marinmgabriel/htmltbl/raw/main/LICENSE)
