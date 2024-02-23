@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -20,6 +21,33 @@ func tableFormat(tbls []Table) {
 	}
 }
 
+// Map representation of a table row
+// Used for json formating
+type mrow map[string]string
+
+// Map representation of a table
+// Used for json formating
+type mtable []mrow 
+
+// Format tables in json format
 func jsonFormat(tbls []Table) {
-    fmt.Println("Needs to be implemented")
+    var mtbls []mtable
+	for _, t := range tbls {
+        var mt mtable 
+		for i := 0; i < len(t.td); i += t.cols {
+            mr := make(mrow, t.cols)
+			for j := 0; j < t.cols; j++ {
+				mr[t.th[j]] = t.td[i+j]
+			}
+            mt = append(mt, mr)
+		}
+        mtbls = append(mtbls, mt)
+	}
+	jsonTbls, err := json.Marshal(mtbls)
+	if err != nil {
+		fmt.Fprint(os.Stderr, err)
+		os.Exit(1)
+	}
+	fmt.Println(string(jsonTbls))
 }
+
