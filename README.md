@@ -4,7 +4,7 @@ A html table parser for the terminal.
 
 ## Instalation
 ### From source
-With go install(Go 1.21.6 or higher required):
+With go install(Go 1.18 or higher required):
 
     go install github.com/marinmgabriel/htmltbl@latest
 

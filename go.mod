@@ -1,6 +1,6 @@
 module github.com/marinmgabriel/htmltbl
 
-go 1.21.6
+go 1.18
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.1
