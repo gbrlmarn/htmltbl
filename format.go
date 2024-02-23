@@ -29,8 +29,8 @@ type mrow map[string]string
 // Used for json formating
 type mtable []mrow 
 
-// Format tables in json format
-func jsonFormat(tbls []Table) {
+// Format tables to maps 
+func mapFormat(tbls []Table) []mtable {
     var mtbls []mtable
 	for _, t := range tbls {
         var mt mtable 
@@ -43,6 +43,12 @@ func jsonFormat(tbls []Table) {
 		}
         mtbls = append(mtbls, mt)
 	}
+    return mtbls
+}
+
+// Format tables in json format
+func jsonFormat(tbls []Table) {
+    mtbls := mapFormat(tbls)
 	jsonTbls, err := json.Marshal(mtbls)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)
