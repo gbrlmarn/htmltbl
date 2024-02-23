@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net/http"
 	"os"
 )
 
@@ -21,20 +20,13 @@ func main() {
 		fmt.Println("Only one link is supported")
 		return
 	}
+
     url := flag.Args()[0]
-
-	resp, err := http.Get(url)
-	if err != nil {
+    tbls, err := fetch(url)
+    if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
-	}
-	defer resp.Body.Close()
-
-	tbls, err := extract(resp.Body)
-	if err != nil {
-		fmt.Fprint(os.Stderr, err)
-		os.Exit(1)
-	}
+    }
 
     switch *format {
     case "table":
