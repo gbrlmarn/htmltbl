@@ -14,7 +14,7 @@ type Table struct {
 	cols int
 }
 
-// Extract all tables of tag '<table>' from 
+// Extract all tables of tag '<table>' from
 // a html body reader closer
 func extract(body io.ReadCloser) ([]Table, error) {
 	doc, err := goquery.NewDocumentFromReader(body)
@@ -37,4 +37,3 @@ func extract(body io.ReadCloser) ([]Table, error) {
 	})
 	return tables, nil
 }
-

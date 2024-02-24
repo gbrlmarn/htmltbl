@@ -25,29 +25,29 @@ func tableFormat(tbls []Table) {
 type mrow map[string]string
 
 // Map representation of a table
-type mtable []mrow 
+type mtable []mrow
 
 // Create an array of maps representing
 // table members
 func mkMapTbls(tbls []Table) []mtable {
-    var mtbls []mtable
+	var mtbls []mtable
 	for _, t := range tbls {
-        var mt mtable 
+		var mt mtable
 		for i := 0; i < len(t.td); i += t.cols {
-            mr := make(mrow, t.cols)
+			mr := make(mrow, t.cols)
 			for j := 0; j < t.cols; j++ {
 				mr[t.th[j]] = t.td[i+j]
 			}
-            mt = append(mt, mr)
+			mt = append(mt, mr)
 		}
-        mtbls = append(mtbls, mt)
+		mtbls = append(mtbls, mt)
 	}
-    return mtbls
+	return mtbls
 }
 
 // Format tables in json format
 func jsonFormat(tbls []Table) {
-    mtbls := mkMapTbls(tbls)
+	mtbls := mkMapTbls(tbls)
 	jsonTbls, err := json.Marshal(mtbls)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)
@@ -55,4 +55,3 @@ func jsonFormat(tbls []Table) {
 	}
 	fmt.Println(string(jsonTbls))
 }
-

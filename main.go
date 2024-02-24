@@ -7,11 +7,11 @@ import (
 )
 
 var (
-    format = flag.String("format", "table", "format: table, json")
+	format = flag.String("format", "table", "format: table, json")
 )
 
 func main() {
-    flag.Parse()
+	flag.Parse()
 	if len(flag.Args()) == 0 {
 		fmt.Println("Please specify the link for table extraction")
 		return
@@ -21,20 +21,19 @@ func main() {
 		return
 	}
 
-    url := flag.Args()[0]
-    tbls, err := fetch(url)
-    if err != nil {
+	url := flag.Args()[0]
+	tbls, err := fetch(url)
+	if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
-    }
+	}
 
-    switch *format {
-    case "table":
-        tableFormat(tbls)
-    case "json":
-        jsonFormat(tbls)
-    default:
-        panic(fmt.Sprintf("unsupported format %s\n", *format)) 
-    }
+	switch *format {
+	case "table":
+		tableFormat(tbls)
+	case "json":
+		jsonFormat(tbls)
+	default:
+		panic(fmt.Sprintf("unsupported format %s\n", *format))
+	}
 }
-
