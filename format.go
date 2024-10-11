@@ -55,3 +55,14 @@ func jsonFormat(tbls []Table) {
 	}
 	fmt.Println(string(jsonTbls))
 }
+
+// Format tables in json format
+func jsonFormatIndent(tbls []Table) {
+	mtbls := mkMapTbls(tbls)
+	jsonTbls, err := json.MarshalIndent(mtbls, "", "\t")
+	if err != nil {
+		fmt.Fprint(os.Stderr, err)
+		os.Exit(1)
+	}
+	fmt.Println(string(jsonTbls))
+}

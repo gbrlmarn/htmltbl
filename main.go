@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	format = flag.String("format", "table", "format: table, json")
+	format = flag.String("format", "table", "format: table, json, json-indent")
 )
 
 func main() {
@@ -33,6 +33,8 @@ func main() {
 		tableFormat(tbls)
 	case "json":
 		jsonFormat(tbls)
+    case "json-indent":
+        jsonFormatIndent(tbls)
 	default:
 		panic(fmt.Sprintf("unsupported format %s\n", *format))
 	}
