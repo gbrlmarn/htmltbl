@@ -34,7 +34,7 @@ func extract(body io.ReadCloser) ([]Table, error) {
 				row = append(row, tablecell.Text())
 			})
 			tbl.rows = append(tbl.rows, row)
-            row = nil
+			row = nil
 		})
 		tbls = append(tbls, tbl)
 	})

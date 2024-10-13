@@ -29,7 +29,7 @@ type mTable map[string][]string
 func mkMapTbls(tbls []Table) []mTable {
 	var mtbls []mTable
 	for _, t := range tbls {
-        mt := make(mTable)
+		mt := make(mTable)
 		for i := 0; i < len(t.rows); i++ {
 			mt[t.headings[i]] = t.rows[i]
 		}
