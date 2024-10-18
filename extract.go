@@ -21,28 +21,28 @@ func extract(body io.ReadCloser) ([]Table, error) {
 		return nil, err
 	}
 	var tbls []Table
-	var row []string
-	if doc.HasClass("table") {
-		doc.Find("table").Each(func(i int, tablehtml *goquery.Selection) {
-			var tbl Table
-
-			// find table row
-			tablehtml.Find("tr").Each(func(i int, rowhtml *goquery.Selection) {
-				// find table header
-				rowhtml.Find("th").Each(func(i int, tableheading *goquery.Selection) {
-					tbl.headings = append(tbl.headings, tableheading.Text())
-				})
-				// find table data
-				rowhtml.Find("td").Each(func(i int, tablecell *goquery.Selection) {
-					row = append(row, tablecell.Text())
-				})
-				tbl.rows = append(tbl.rows, row)
-				row = nil
-			})
-			tbls = append(tbls, tbl)
-		})
-	} else {
-		return nil, fmt.Errorf("Didn't find any table node.\n")
-	}
+	doc.Find("table").Each(func(i int, tablehtml *goquery.Selection) {
+		tbls = append(tbls, extractTbl(tablehtml))
+	})
 	return tbls, nil
+}
+
+func extractTbl(tblhtml *goquery.Selection) Table {
+	var tbl Table
+	var row []string
+
+	// find table row
+	tblhtml.Find("tr").Each(func(i int, rowhtml *goquery.Selection) {
+		// find table header
+		rowhtml.Find("th").Each(func(i int, tableheading *goquery.Selection) {
+			tbl.headings = append(tbl.headings, tableheading.Text())
+		})
+		// find table data
+		rowhtml.Find("td").Each(func(i int, tablecell *goquery.Selection) {
+			row = append(row, tablecell.Text())
+		})
+		tbl.rows = append(tbl.rows, row)
+		row = nil
+	})
+	return tbl
 }
