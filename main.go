@@ -31,10 +31,6 @@ func main() {
 	switch *format {
 	case "table":
 		tableFormat(tbls)
-	case "json":
-		jsonFormat(tbls)
-	case "json-indent":
-		jsonFormatIndent(tbls)
 	default:
 		panic(fmt.Sprintf("unsupported format %s\n", *format))
 	}
