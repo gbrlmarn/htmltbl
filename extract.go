@@ -9,10 +9,10 @@ import (
 
 // Table struct extracted from HTML
 type Table struct {
-	ths   []string
-	tds   []string
-	ncols int
-	nrows int
+	Headers []string
+	Data    []string
+	Ncols   int
+	Nrows   int
 }
 
 // Extract all tables of tag '<table>' from
@@ -22,16 +22,16 @@ func extract(tbls []Table, n *html.Node) ([]Table, error) {
 	case "table":
 		tbls = append(tbls, Table{})
 	case "tr":
-		tbls[len(tbls)-1].nrows += 1
+		tbls[len(tbls)-1].Nrows += 1
 	case "th":
 		var sb strings.Builder
 		innerText(n, &sb)
-		tbls[len(tbls)-1].ths = append(tbls[len(tbls)-1].ths, sb.String())
-		tbls[len(tbls)-1].ncols += 1
+		tbls[len(tbls)-1].Headers = append(tbls[len(tbls)-1].Headers, sb.String())
+		tbls[len(tbls)-1].Ncols += 1
 	case "td":
 		var sb strings.Builder
 		innerText(n, &sb)
-		tbls[len(tbls)-1].tds = append(tbls[len(tbls)-1].tds, sb.String())
+		tbls[len(tbls)-1].Data = append(tbls[len(tbls)-1].Data, sb.String())
 	}
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		var err error
@@ -43,6 +43,7 @@ func extract(tbls []Table, n *html.Node) ([]Table, error) {
 	return tbls, nil
 }
 
+// Extract inner text from html nodes
 func innerText(n *html.Node, sb *strings.Builder) {
 	if n.Type == html.TextNode {
 		sb.WriteString(strings.TrimSpace(n.Data))
