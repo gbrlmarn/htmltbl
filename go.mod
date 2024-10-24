@@ -1,4 +1,4 @@
-module github.com/marinmgabriel/htmltbl
+module github.com/gblmrn/htmltbl
 
 go 1.18
 
