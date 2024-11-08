@@ -18,7 +18,6 @@ func tableFormat(tbls []Table) {
 		for i := 0; i < len(t.Data); i += len(t.Headers) {
 			table.Append(t.Data[i : i+len(t.Headers)])
 		}
-
 		table.Render()
 	}
 }
@@ -32,7 +31,7 @@ func jsonFormat(tbls []Table) {
 	fmt.Println(string(jsonTbls))
 }
 
-// Format tables in json format
+// Format tables in json indent format
 func jsonIndentFormat(tbls []Table) {
 	jsonTbls, err := json.MarshalIndent(tbls, "", "    ")
 	if err != nil {
