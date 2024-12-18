@@ -5,11 +5,11 @@ A html table parser for the terminal.
 ### From source
 With go install(Go 1.18 or higher required):
 
-    go install github.com/gblmrn/htmltbl@latest
+    go install github.com/gbrlmarn/htmltbl@latest
 
 Or building from repository:
 
-    git clone http://github.com/gblmrn/htmltbl
+    git clone http://github.com/gbrlmarn/htmltbl
     cd htmltbl
     go build
 
