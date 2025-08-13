@@ -20,5 +20,11 @@ You must specify a http link and optionally the format(table, json)
     htmltbl --format json <url>
     htmltbl --format json-indent <url>
 
+To use simulate GET method created by a real browser run with:
+
+    htmltbl --simulate-browser <url>
+    htmltbl --format json --simulate-browser <url>
+    htmltbl --format json-indent --simulate-browser <url>
+
 ## License
 [MIT](https://github.com/gblmrn/htmltbl/raw/main/LICENSE)

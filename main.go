@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	format = flag.String("format", "table", "format: table, json, json-indent")
+	format = flag.String("format", "table", "Output formats: table, json, json-indent")
+	simbrs = flag.Bool("simulate-browser", false, "Simulate browser headers when sending http.Get")
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 	}
 
 	url := flag.Args()[0]
-	tbls, err := fetch(url)
+	tbls, err := fetch(url, simbrs)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)

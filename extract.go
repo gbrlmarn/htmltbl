@@ -57,11 +57,28 @@ func innerText(n *html.Node, sb *strings.Builder) {
 	}
 }
 
-// Fetch html body from url and
-// returns an array of tables
-func fetch(url string) ([]Table, error) {
+// Fetch html body from url and returns an array of tables
+// If simbrs is true, use browser headers for http.Get to
+// simulate a http.Get created by a browser.
+func fetch(url string, simbrs *bool) ([]Table, error) {
 	var tbls []Table
-	resp, err := http.Get(url)
+
+	// Simulate browser to bypass site checks
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// Simulate browser headers
+	if (*simbrs == true) {
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36")
+		req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		req.Header.Set("Accept-Language", "en-US,en;q=0.9")
+		req.Header.Set("Connection", "keep-alive")
+	}
+
+	// Make a http.Get using the headers from above
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
